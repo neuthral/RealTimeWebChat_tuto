@@ -2,12 +2,18 @@ var express = require("express");
 var app = express();
 var port = 3700;
 
+var Spinner = require('cli-spinner').Spinner;
+ 
+var spinner = new Spinner('-[%s] ');
+spinner.setSpinnerString('◢◣◤◥');
+spinner.start();
+
 app.use(express.static(__dirname + '/public'));
 
 var io = require('socket.io').listen(app.listen(port));
 
 io.sockets.on('connection', function (socket) {
-    socket.emit('message', { message: 'welcome to the chat' });
+    socket.emit('message', { message: 'a cow says moo...' });
     socket.on('send', function (data) {
         io.sockets.emit('message', data);
         console.log(data);
@@ -23,8 +29,3 @@ app.get("/", function(req, res){
     res.render("page");
 });
 
-var Spinner = require('cli-spinner').Spinner;
- 
-var spinner = new Spinner('-[%s');
-spinner.setSpinnerString('◢◣◤◥');
-spinner.start();

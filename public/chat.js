@@ -6,6 +6,9 @@ window.onload = function() {
     var sendButton = document.getElementById("send");
     var content = document.getElementById("content");
     var name = document.getElementById("name");
+    var spinners = [
+        "◰◳◲◱",
+    ];
 
     socket.on('message', function (data) {
         if(data.message) {
@@ -20,7 +23,22 @@ window.onload = function() {
         } else {
             console.log("There is a problem:", data);
         }
+
     });
+
+    // spinner
+    for(var s=0; s<spinners.length; ++s) {
+        var spinner = spinners[s];
+            var el = document.getElementById('send');
+
+            (function(spinner,el) {
+                var i = 0;
+                setInterval(function() {
+                    el.value = spinner[i];
+                    i = (i + 1) % spinner.length;
+                }, 300);
+            })(spinner,el);
+    }
 
     sendButton.onclick = sendMessage = function() {
         if(name.value == "") {
@@ -32,21 +50,6 @@ window.onload = function() {
         }
     };
 
-    var spinners = [
-        "◢◣◤◥",
-    ];
 
-    for(var s=0; s<spinners.length; ++s) {
-        var spinner = spinners[s];
-        var el = document.getElementById('spinner');
-        document.body.appendChild(el);
 
-        (function(spinner,el) {
-            var i = 0;
-            setInterval(function() {
-                el.innerHTML = spinner[i];
-                i = (i + 1) % spinner.length;
-            }, 300);
-        })(spinner,el);
-    }
 }
