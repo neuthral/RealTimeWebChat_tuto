@@ -22,3 +22,9 @@ app.engine('jade', require('jade').__express);
 app.get("/", function(req, res){
     res.render("page");
 });
+
+var Spinner = require('cli-spinner').Spinner;
+ 
+var spinner = new Spinner('-[%s');
+spinner.setSpinnerString('◢◣◤◥');
+spinner.start();

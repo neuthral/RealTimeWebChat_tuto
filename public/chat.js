@@ -24,7 +24,7 @@ window.onload = function() {
 
     sendButton.onclick = sendMessage = function() {
         if(name.value == "") {
-            alert("Please type your name!");
+            //alert("Please type your name!");
         } else {
             var text = field.value;
             socket.emit('send', { message: text, username: name.value });
@@ -32,12 +32,21 @@ window.onload = function() {
         }
     };
 
-}
+    var spinners = [
+        "◢◣◤◥",
+    ];
 
-$(document).ready(function() {
-    $("#field").keyup(function(e) {
-        if(e.keyCode == 13) {
-            sendMessage();
-        }
-    });
-});
+    for(var s=0; s<spinners.length; ++s) {
+        var spinner = spinners[s];
+        var el = document.getElementById('spinner');
+        document.body.appendChild(el);
+
+        (function(spinner,el) {
+            var i = 0;
+            setInterval(function() {
+                el.innerHTML = spinner[i];
+                i = (i + 1) % spinner.length;
+            }, 300);
+        })(spinner,el);
+    }
+}
